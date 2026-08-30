@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:5040");
 
 // Add services
 builder.Services.AddOpenApi();
@@ -274,3 +275,4 @@ public record CreateDealDto(
 public record MoveStageDto(DealStage TargetStage);
 public record MarkLostDto(string LostReasonCode);
 public record SimulateEmailDto(int? DealId, string From, string Subject, string BodySnippet);
+
