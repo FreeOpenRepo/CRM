@@ -30,7 +30,8 @@ services:
       - "5040:5040"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5040
+      - ASPNETCORE_URLS=http://0.0.0.0:5040
+      - ASPNETCORE_HTTP_PORTS=5040
       - ConnectionStrings__PostgresConnection=Host=crm-db;Port=5432;Database=crm_db;Username=postgres;Password=postgres
     depends_on:
       crm-db:
@@ -60,6 +61,7 @@ volumes:
 networks:
   crm-network:
     driver: bridge
+
 
 
 
