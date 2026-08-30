@@ -42,11 +42,25 @@ else
 var app = builder.Build();
 
 // Ensure Database is Created
-using (var scope = app.Services.CreateScope())
+app.Lifetime.ApplicationStarted.Register(async () =>
 {
-    var db = scope.ServiceProvider.GetRequiredService<CrmDbContext>();
-    db.Database.EnsureCreated();
-}
+    for (int i = 0; i < 5; i++)
+    {
+        try
+        {
+            using var scope = app.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<CrmDbContext>();
+            await db.Database.EnsureCreatedAsync();
+            app.Logger.LogInformation("CRM Database connected and verified successfully.");
+            break;
+        }
+        catch (Exception ex)
+        {
+            app.Logger.LogWarning("CRM DB initialization attempt {Attempt} failed: {Message}. Retrying...", i + 1, ex.Message);
+            await Task.Delay(2000);
+        }
+    }
+});
 
 app.UseCors();
 
@@ -275,4 +289,5 @@ public record CreateDealDto(
 public record MoveStageDto(DealStage TargetStage);
 public record MarkLostDto(string LostReasonCode);
 public record SimulateEmailDto(int? DealId, string From, string Subject, string BodySnippet);
+
 
