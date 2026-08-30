@@ -1,0 +1,33 @@
+services:
+  crm-api:
+    build:
+      context: ./crm-api
+      dockerfile: Dockerfile
+    container_name: crm-api
+    ports:
+      - "5040:5040"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5040
+    restart: unless-stopped
+    networks:
+      - crm-network
+
+  crm-web:
+    build:
+      context: ./crm-web
+      dockerfile: Dockerfile
+    container_name: crm-web
+    ports:
+      - "3004:3004"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5040
+    depends_on:
+      - crm-api
+    restart: unless-stopped
+    networks:
+      - crm-network
+
+networks:
+  crm-network:
+    driver: bridge
