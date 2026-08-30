@@ -5,6 +5,7 @@ import { Deal, DealStage } from '@/lib/types';
 import { fetchDeals, createDeal, moveDealStage, sendProposal, markWon, markLost } from '@/lib/api';
 import { Plus, ArrowRight, CheckCircle2, XCircle, Send, DollarSign, Building2, User, Phone, Mail, FileText, AlertCircle, X, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { showSuccess, showError, showInfo, showWarning } from '@/lib/swal';
 
 const STAGES: { key: DealStage; label: string; prob: string; colClass: string }[] = [
   { key: 'LEAD', label: '1. Leads (New)', prob: '10%', colClass: 'column-lead' },
@@ -77,15 +78,18 @@ export default function SalesRepView() {
     try {
       if (deal.stage === 'LEAD') {
         await moveDealStage(deal.id, 'QUALIFIED');
+        showInfo('ผ่านการประเมิน (Qualified)', `ปรับสถานะดีล "${deal.title}" เป็น QUALIFIED`);
       } else if (deal.stage === 'QUALIFIED') {
         await sendProposal(deal.id); // Triggers AccountingBridge
+        showSuccess('ส่ง Proposal สำเร็จ!', `สร้าง Draft Quotation ในระบบ ACCOUNTING อัตโนมัติ`);
       } else if (deal.stage === 'PROPOSAL') {
         await markWon(deal.id); // Triggers SignalR.BroadcastWon & Forecast
         confetti({ particleCount: 80, spread: 90, origin: { y: 0.6 } });
+        showSuccess('🎉 ปิดการขายสำเร็จ (DEAL WON)!', `มูลค่า ${deal.value.toLocaleString()} THB ส่งสัญญาณ Real-time ฉลองทั้งทีม`);
       }
       await loadDeals();
     } catch (err: any) {
-      alert('Transition rejected: ' + err.message);
+      showError('ไม่สามารถเปลี่ยน Stage ได้', err.message);
     }
   }
 
@@ -95,8 +99,9 @@ export default function SalesRepView() {
       await markLost(selectedDealForLost.id, lostReasonCode);
       setSelectedDealForLost(null);
       await loadDeals();
+      showWarning('บันทึก Deal Lost', `ระบุสาเหตุ: ${lostReasonCode} เพื่อการวิเคราะห์กลยุทธ์`);
     } catch (err: any) {
-      alert('Mark lost failed: ' + err.message);
+      showError('ไม่สามารถปิดดีล Lost ได้', err.message);
     }
   }
 

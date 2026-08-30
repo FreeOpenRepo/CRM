@@ -5,6 +5,7 @@ import { InboundEmail, Deal } from '@/lib/types';
 import { fetchEmails, fetchDeals, simulateInboundEmail } from '@/lib/api';
 import { Mail, Inbox, Send, Link as LinkIcon, RefreshCw, CheckCircle2, Sparkles, Building2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { showSuccess, showError } from '@/lib/swal';
 
 export default function ImapMailView() {
   const [emails, setEmails] = useState<InboundEmail[]>([]);
@@ -47,8 +48,9 @@ export default function ImapMailView() {
       setBodySnippet('');
       await loadData();
       confetti({ particleCount: 50, spread: 60 });
+      showSuccess('จำลองรับอีเมลสำเร็จ', 'ผูกอีเมลตอบกลับเข้าสู่ Activity Timeline ของดีลเรียบร้อยแล้ว');
     } catch (err: any) {
-      alert('Email simulation failed: ' + err.message);
+      showError('จำลองส่งอีเมลไม่สำเร็จ', err.message);
     } finally {
       setIsSimulating(false);
     }
