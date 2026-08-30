@@ -1,4 +1,25 @@
 services:
+  crm-db:
+    image: postgres:18-alpine
+    container_name: crm-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=crm_db
+    ports:
+      - "5436:5432"
+    volumes:
+      - crm_postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d crm_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - crm-network
+
   crm-api:
     build:
       context: ./crm-api
@@ -9,6 +30,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5040
+      - ConnectionStrings__PostgresConnection=Host=crm-db;Port=5432;Database=crm_db;Username=postgres;Password=postgres
+    depends_on:
+      crm-db:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - crm-network
@@ -27,6 +52,9 @@ services:
     restart: unless-stopped
     networks:
       - crm-network
+
+volumes:
+  crm_postgres_data:
 
 networks:
   crm-network:
