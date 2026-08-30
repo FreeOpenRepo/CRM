@@ -77,7 +77,7 @@ export default function Home() {
             {[
               { role: 'SalesRep' as const, label: 'Sales Pipeline (Kanban)', icon: Kanban, color: 'var(--accent-cyan)' },
               { role: 'SalesManager' as const, label: 'Sales Forecast & Analytics', icon: TrendingUp, color: 'var(--accent-emerald)' },
-              { role: 'ImapMailListener' as const, label: 'IMAP Inbound Mail', icon: Mail, color: 'var(--accent-blue)' },
+              { role: 'ImapMailListener' as const, label: 'จำลองอีเมลลูกค้า (IMAP Mail)', icon: Mail, color: 'var(--accent-blue)' },
             ].map(tab => {
               const Icon = tab.icon;
               const isActive = activeRole === tab.role;
@@ -122,7 +122,7 @@ export default function Home() {
             color: isApiOnline ? '#34d399' : '#fca5a5'
           }}>
             {isApiOnline ? <Wifi style={{ width: 12, height: 12 }} /> : <WifiOff style={{ width: 12, height: 12 }} />}
-            <span>{isApiOnline ? 'CRM API Active' : 'Connecting API :5040...'}</span>
+            <span>{isApiOnline ? 'CRM API ออนไลน์' : 'Connecting API :5040...'}</span>
           </div>
         </div>
       </header>
@@ -136,3 +136,4 @@ export default function Home() {
     </main>
   );
 }
+

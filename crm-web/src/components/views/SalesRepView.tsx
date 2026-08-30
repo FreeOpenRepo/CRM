@@ -124,7 +124,7 @@ export default function SalesRepView() {
           className="btn-primary"
           style={{ fontSize: '0.9rem' }}
         >
-          <Plus style={{ width: 16, height: 16 }} /> Create New Deal
+          <Plus style={{ width: 16, height: 16 }} /> สร้างใหม่ Deal
         </button>
       </div>
 
@@ -148,9 +148,9 @@ export default function SalesRepView() {
                 </span>
               </div>
 
-              {/* Total Value in Column */}
+              {/* ยอดรวม Value in Column */}
               <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '16px', paddingBottom: '10px', borderBottom: '1px solid var(--border-glass)' }}>
-                Total: <strong style={{ color: '#f8fafc' }}>{totalStageValue.toLocaleString()} ฿</strong> • Win Prob: {stageInfo.prob}
+                ยอดรวม: <strong style={{ color: '#f8fafc' }}>{totalStageValue.toLocaleString()} ฿</strong> • Win Prob: {stageInfo.prob}
               </div>
 
               {/* Deal Cards */}
@@ -228,7 +228,7 @@ export default function SalesRepView() {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 60, padding: '16px' }}>
           <div className="glass-panel" style={{ maxWidth: '520px', width: '100%', padding: '24px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Create New Sales Deal</h3>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>สร้างใหม่ Sales Deal</h3>
               <button onClick={() => setIsNewDealOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
                 <X style={{ width: 22, height: 22 }} />
               </button>
@@ -297,7 +297,7 @@ export default function SalesRepView() {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                <button type="button" onClick={() => setIsNewDealOpen(false)} className="btn-secondary">Cancel</button>
+                <button type="button" onClick={() => setIsNewDealOpen(false)} className="btn-secondary">ยกเลิก</button>
                 <button type="submit" disabled={isSubmitting} className="btn-primary">
                   {isSubmitting ? 'Creating...' : 'Create Deal (LEAD Stage)'}
                 </button>
@@ -336,8 +336,8 @@ export default function SalesRepView() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button onClick={() => setSelectedDealForLost(null)} className="btn-secondary">Cancel</button>
-              <button onClick={handleMarkLostSubmit} className="btn-danger">Confirm Close Lost</button>
+              <button onClick={() => setSelectedDealForLost(null)} className="btn-secondary">ยกเลิก</button>
+              <button onClick={handleMarkLostSubmit} className="btn-danger">ยืนยัน Close Lost</button>
             </div>
           </div>
         </div>
@@ -386,3 +386,4 @@ export default function SalesRepView() {
     </div>
   );
 }
+
