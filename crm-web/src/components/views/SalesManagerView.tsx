@@ -129,19 +129,19 @@ export default function SalesManagerView() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {['Alex Mercer', 'Sarah Jenkins'].map((rep, idx) => {
               const repDeals = deals.filter(d => d.ownerName.includes(rep));
-              const wonยอดรวม = repDeals.filter(d => d.stage === 'WON').reduce((s, d) => s + d.dealValue, 0);
-              const pipelineยอดรวม = repDeals.filter(d => d.stage !== 'WON' && d.stage !== 'LOST').reduce((s, d) => s + d.dealValue, 0);
+              const wonTotal = repDeals.filter(d => d.stage === 'WON').reduce((s, d) => s + d.dealValue, 0);
+              const pipelineTotal = repDeals.filter(d => d.stage !== 'WON' && d.stage !== 'LOST').reduce((s, d) => s + d.dealValue, 0);
 
               return (
                 <div key={rep} style={{ padding: '14px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                     <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{rep}</span>
                     <span style={{ fontSize: '0.8rem', color: 'var(--accent-emerald)', fontWeight: 700 }} className="font-mono">
-                      Won: {wonยอดรวม.toLocaleString()} ฿
+                      Won: {wonTotal.toLocaleString()} ฿
                     </span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    <span>Active Pipeline: {pipelineยอดรวม.toLocaleString()} ฿</span>
+                    <span>Active Pipeline: {pipelineTotal.toLocaleString()} ฿</span>
                     <span>{repDeals.length} ยอดรวม Opportunities</span>
                   </div>
                 </div>
@@ -153,4 +153,5 @@ export default function SalesManagerView() {
     </div>
   );
 }
+
 
